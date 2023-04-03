@@ -24,6 +24,9 @@ const tutorSchema = new Schema({
         required: true,
         select: false,
     },
+    courses: [
+        mongoose.Schema.Types.ObjectId,
+    ],
     date: {
         type: String,
         default: Date.now,

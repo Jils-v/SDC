@@ -91,6 +91,7 @@ router.post("/signup", verifyer, async(req, res) => {
                 email: req.body.email,
                 phone: req.body.phone,
                 password: secPass,
+                courses: [],
             });
 
             try {
@@ -104,6 +105,7 @@ router.post("/signup", verifyer, async(req, res) => {
                             email: user.email,
                             phone: user.phone,
                             type: "user",
+                            courses: user.courses,
                         },
                     })
                 );
@@ -120,6 +122,7 @@ router.post("/signup", verifyer, async(req, res) => {
                 phone: req.body.phone,
                 verified: false,
                 password: secPass,
+                courses: [],
             });
 
             try {
@@ -134,6 +137,7 @@ router.post("/signup", verifyer, async(req, res) => {
                             phone: tutor.phone,
                             verified: tutor.verified,
                             type: "tutor",
+                            courses: tutor.courses,
                         },
                     })
                 );
@@ -200,6 +204,7 @@ router.post("/login", verifyer, async(req, res) => {
                     email: usr.email,
                     phone: usr.phone,
                     type: role,
+                    courses: usr.courses,
                 },
             });
         } catch {

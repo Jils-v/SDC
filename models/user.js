@@ -20,6 +20,14 @@ const userSchema = new Schema({
         required: true,
         select: false,
     },
+    // courses: [{
+    //     id: {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //     }
+    // }],
+    courses: [
+        mongoose.Schema.Types.ObjectId,
+    ],
     date: {
         type: Date,
         default: Date.now,
