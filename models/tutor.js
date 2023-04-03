@@ -28,7 +28,7 @@ const tutorSchema = new Schema({
         mongoose.Schema.Types.ObjectId,
     ],
     date: {
-        type: String,
+        type: Date,
         default: Date.now,
     },
 });

@@ -21,7 +21,7 @@ const adminSchema = new Schema({
         select: false,
     },
     date: {
-        type: String,
+        type: Date,
         default: Date.now,
     },
 });
