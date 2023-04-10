@@ -58,7 +58,7 @@ router.post("/deleteUser", fetchuser, async(req, res) => {
             } else {
                 const del = await User.findOneAndDelete({ email: mail });
                 if (del) {
-                    res.json({ Success: true });
+                    res.json({ Success: true, email: req.body.email });
                 } else {
                     res.json({ Success: false });
                 }
@@ -67,7 +67,6 @@ router.post("/deleteUser", fetchuser, async(req, res) => {
     } catch (err) {
         res.status(500).json({
             error: "Interanl server error ",
-            email: req.body.email
         });
     }
 });
@@ -87,7 +86,7 @@ router.post("/deleteTutor", fetchuser, async(req, res) => {
             } else {
                 const del = await Tutor.findOneAndDelete({ email: mail });
                 if (del) {
-                    res.json({ Success: true });
+                    res.json({ Success: true, email: req.body.email });
                 } else {
                     res.json({ Success: false });
                 }
@@ -96,7 +95,6 @@ router.post("/deleteTutor", fetchuser, async(req, res) => {
     } catch (err) {
         res.status(500).json({
             error: "Interanl server error ",
-            email: req.body.email
         });
     }
 });
@@ -110,10 +108,15 @@ router.post("/verifyAccount", fetchuser, async(req, res) => {
             });
         } else {
             await Tutor.findOneAndUpdate({ email: req.body.email }, { verified: true });
-            return res.json({ Success: true });
+            return res.json({
+                Success: true,
+                email: req.body.email
+            });
         }
     } catch (err) {
-        res.status(500).json({ error: "Interanl server error " });
+        res.status(500).json({
+            error: "Interanl server error ",
+        });
     }
 });
 
@@ -127,10 +130,15 @@ router.post("/verifyCourse", fetchuser, async(req, res) => {
         } else {
             await Course.findOneAndUpdate({ _id: req.body.id }, { verified: true });
             // await Tutor.findOneAndUpdate({ email: req.body.email }, { verified: true });
-            return res.json({ Success: true });
+            return res.json({
+                Success: true,
+                id: req.body.id
+            });
         }
     } catch (err) {
-        res.status(500).json({ error: "Interanl server error " });
+        res.status(500).json({
+            error: "Interanl server error ",
+        });
     }
 });
 
