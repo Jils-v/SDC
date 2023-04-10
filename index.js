@@ -8,7 +8,7 @@ const app = express();
 app.use(cors({ origin: '*' }));
 
 app.use(express.json());
-const port = process.env.PORT | 443;
+const port = process.env.PORT | 80;
 
 app.use((req, res, next) => {
 
