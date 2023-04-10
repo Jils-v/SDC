@@ -3,6 +3,7 @@ const router = new express.Router();
 const User = require("../models/user");
 const Tutor = require("../models/tutor");
 const Admin = require("../models/admin");
+const Course = require("../models/courses");
 const nodemailer = require("nodemailer");
 const crd = require("../credn");
 var newOTP = require("otp-generators");
@@ -103,6 +104,23 @@ router.post("/verifyAccount", fetchuser, async(req, res) => {
             });
         } else {
             await Tutor.findOneAndUpdate({ email: req.body.email }, { verified: true });
+            return res.json({ Success: true });
+        }
+    } catch (err) {
+        res.status(500).json({ error: "Interanl server error " });
+    }
+});
+
+router.post("/verifyCourse", fetchuser, async(req, res) => {
+    try {
+        if (req.data.type != 'admin') {
+            return res.status(403).send({
+                success: false,
+                message: "Not Allowed",
+            });
+        } else {
+            await Course.findOneAndUpdate({ _id: req.body.id }, { verified: true });
+            // await Tutor.findOneAndUpdate({ email: req.body.email }, { verified: true });
             return res.json({ Success: true });
         }
     } catch (err) {
