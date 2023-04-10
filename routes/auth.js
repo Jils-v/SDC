@@ -349,7 +349,7 @@ router.post("/authCheck", fetchuser, (req, res) => {
                 } else {
                     res.status(401).send({
                         success: false,
-                        error: "Account not found or user type changed",
+                        message: "Account not found or user type changed",
                     });
                 }
             }
@@ -357,7 +357,7 @@ router.post("/authCheck", fetchuser, (req, res) => {
     } catch (err) {
         res.status(500).send({
             success: false,
-            error: "Internal server error",
+            message: "Internal server error",
         });
     }
 });

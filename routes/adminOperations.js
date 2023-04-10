@@ -23,7 +23,7 @@ router.post("/getAllUsers", fetchuser, async(req, res) => {
             return res.status(200).json(allUsers);
         }
     } catch (err) {
-        res.status(500).json({ error: "Interanl server error " });
+        res.status(500).json({ message: "Interanl server error " });
     }
 });
 
@@ -39,7 +39,7 @@ router.post("/getAllTutors", fetchuser, async(req, res) => {
             return res.status(200).json(allTutors);
         }
     } catch (err) {
-        res.status(500).json({ error: "Interanl server error " });
+        res.status(500).json({ message: "Interanl server error " });
     }
 });
 
@@ -60,13 +60,13 @@ router.post("/deleteUser", fetchuser, async(req, res) => {
                 if (del) {
                     res.json({ Success: true, email: req.body.email });
                 } else {
-                    res.json({ Success: false });
+                    res.json({ Success: false, message: "Failed" });
                 }
             }
         }
     } catch (err) {
         res.status(500).json({
-            error: "Interanl server error ",
+            message: "Interanl server error ",
         });
     }
 });
@@ -88,13 +88,13 @@ router.post("/deleteTutor", fetchuser, async(req, res) => {
                 if (del) {
                     res.json({ Success: true, email: req.body.email });
                 } else {
-                    res.json({ Success: false });
+                    res.json({ Success: false, message: "Failed" });
                 }
             }
         }
     } catch (err) {
         res.status(500).json({
-            error: "Interanl server error ",
+            message: "Interanl server error ",
         });
     }
 });
@@ -115,7 +115,7 @@ router.post("/verifyAccount", fetchuser, async(req, res) => {
         }
     } catch (err) {
         res.status(500).json({
-            error: "Interanl server error ",
+            message: "Interanl server error ",
         });
     }
 });
@@ -137,7 +137,7 @@ router.post("/verifyCourse", fetchuser, async(req, res) => {
         }
     } catch (err) {
         res.status(500).json({
-            error: "Interanl server error ",
+            message: "Interanl server error ",
         });
     }
 });
