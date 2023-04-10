@@ -54,7 +54,7 @@ router.post("/deleteUser", fetchuser, async(req, res) => {
             const mail = req.body.email;
             const exists = await User.findOne({ email: mail });
             if (!exists) {
-                return res.status(404).json({ error: "not found" });
+                return res.status(404).json({ message: "not found" });
             } else {
                 const del = await User.findOneAndDelete({ email: mail });
                 if (del) {
@@ -82,7 +82,7 @@ router.post("/deleteTutor", fetchuser, async(req, res) => {
             const mail = req.body.email;
             const exists = await Tutor.findOne({ email: mail });
             if (!exists) {
-                return res.status(404).json({ error: "not found" });
+                return res.status(404).json({ message: "not found" });
             } else {
                 const del = await Tutor.findOneAndDelete({ email: mail });
                 if (del) {
@@ -134,6 +134,34 @@ router.post("/verifyCourse", fetchuser, async(req, res) => {
                 Success: true,
                 id: req.body.id
             });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: "Interanl server error ",
+        });
+    }
+});
+
+router.post("/deleteCourse", fetchuser, async(req, res) => {
+    try {
+        if (req.data.type != 'admin') {
+            return res.status(403).send({
+                success: false,
+                message: "Not Allowed",
+            });
+        } else {
+            const id = req.body.id;
+            const exists = await Course.findOne({ _id: id });
+            if (!exists) {
+                return res.status(404).json({ message: "not found" });
+            } else {
+                const del = await Course.findOneAndDelete({ _id: id });
+                if (del) {
+                    res.json({ Success: true, id: req.body.id });
+                } else {
+                    res.json({ Success: false, message: "Failed" });
+                }
+            }
         }
     } catch (err) {
         res.status(500).json({
