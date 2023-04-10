@@ -70,7 +70,7 @@ router.post("/getCourseDetails", fetchuser, async(req, res) => {
     }
 });
 
-router.post("/getAllCourses", fetchuser, async(req, res) => {
+router.post("/getAllCourses", async(req, res) => {
     try {
         const course = await Course.find({});
         return res.status(200).json({
