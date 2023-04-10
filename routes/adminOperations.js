@@ -65,7 +65,10 @@ router.post("/deleteUser", fetchuser, async(req, res) => {
             }
         }
     } catch (err) {
-        res.status(500).json({ error: "Interanl server error " });
+        res.status(500).json({
+            error: "Interanl server error ",
+            email: req.body.email
+        });
     }
 });
 
@@ -91,7 +94,10 @@ router.post("/deleteTutor", fetchuser, async(req, res) => {
             }
         }
     } catch (err) {
-        res.status(500).json({ error: "Interanl server error " });
+        res.status(500).json({
+            error: "Interanl server error ",
+            email: req.body.email
+        });
     }
 });
 
