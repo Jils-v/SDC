@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Course = require("../models/courses");
 const Tutor = require("../models/tutor");
+const User = require("../models/user");
 const fetchuser = require("../middleware/authTokenVarify");
 
 router.use(express.urlencoded({ extended: true }));
@@ -83,6 +84,31 @@ router.post("/getAllCourses", async(req, res) => {
             message: "Internal server error",
         });
     }
+});
+
+router.post("/enroll", fetchuser, async(req, res) => {
+    try {
+        const usr = await User.findOne({ email: req.data.email });
+        usr.courses.push(req.body.id);
+        const updated = await User.findOneAndUpdate({ email: req.data.email }, { courses: usr.courses });
+
+        const course = await Course.findOne({ _id: req.body.id });
+        course.participates.push({ name: req.data.name, email: req.data.email, phone: req.data.phone });
+        const updated2 = await Course.findOneAndUpdate({ _id: req.body.id }, { participates: course.participates });
+
+        if (updated && updated2) {
+            return res.status(200).json({
+                success: true,
+                id: req.body.id
+            });
+        }
+    } catch (err) {
+        return res.status(500).send({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+
 });
 
 module.exports = router;

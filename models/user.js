@@ -36,7 +36,7 @@ const userSchema = new Schema({
 
 userSchema.pre("save",
     userSchema.methods.getJWTToken = function() {
-        return jwt.sign({ id: this._id.toString(), type: "user", email: this.email, name: this.name }, "n2i4i5n32udnwi0f02wjdnakdf", { expiresIn: '7d' })
+        return jwt.sign({ id: this._id.toString(), type: "user", email: this.email, name: this.name, phone: this.phone }, "n2i4i5n32udnwi0f02wjdnakdf", { expiresIn: '7d' })
     }
 )
 
