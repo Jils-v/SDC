@@ -35,6 +35,7 @@ router.post("/addcourse", fetchuser, async(req, res) => {
             return res.status(200).json({
                 success: true,
                 course: {
+                    id: saved._id,
                     name: course.name,
                     duration: course.duration,
                     courseDate: course.date,
