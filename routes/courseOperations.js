@@ -45,6 +45,7 @@ router.post("/addcourse", fetchuser, async(req, res) => {
                     level: course.level,
                     details: course.details,
                     participates: [],
+                    verified: false,
                 }
             });
         }
