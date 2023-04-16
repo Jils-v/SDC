@@ -75,7 +75,8 @@ router.post("/signup", verifyer, async(req, res) => {
     try {
         const usr = await User.findOne({ email: req.body.email }).select("+password");
         const tutor = await Tutor.findOne({ email: req.body.email }).select("+password");
-        if (usr || tutor) {
+        const admin = await Admin.findOne({ email: req.body.email }).select("+password");
+        if (usr || tutor || admin) {
             return res.status(400).json({
                 success: false,
                 message: "email already exists",
@@ -196,17 +197,32 @@ router.post("/login", verifyer, async(req, res) => {
     } else {
         try {
             const token = await usr.getJWTToken();
-            return res.status(200).json({
-                success: true,
-                token,
-                user: {
-                    name: usr.name,
-                    email: usr.email,
-                    phone: usr.phone,
-                    type: role,
-                    courses: usr.courses,
-                },
-            });
+            if (role == "tutor") {
+                return res.status(200).json({
+                    success: true,
+                    token,
+                    user: {
+                        name: usr.name,
+                        email: usr.email,
+                        phone: usr.phone,
+                        type: role,
+                        verified: usr.verified,
+                        courses: usr.courses,
+                    },
+                });
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    token,
+                    user: {
+                        name: usr.name,
+                        email: usr.email,
+                        phone: usr.phone,
+                        type: role,
+                        courses: usr.courses,
+                    },
+                });
+            }
         } catch {
             res.status(500).json({
                 success: false,

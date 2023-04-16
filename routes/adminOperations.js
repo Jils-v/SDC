@@ -108,6 +108,34 @@ router.post("/verifyAccount", fetchuser, async(req, res) => {
             });
         } else {
             await Tutor.findOneAndUpdate({ email: req.body.email }, { verified: true });
+
+            const mail = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                service: "gmail",
+                port: 587,
+                secure: true,
+                auth: {
+                    user: crd.user,
+                    pass: crd.pass,
+                },
+            });
+
+            mail.sendMail({
+                    from: "doremonnobi3922@gmail.com",
+                    to: await req.body.email,
+                    subject: "Account Verification",
+                    text: "",
+                    html: "<p> Your tutor account is verified now, you can add your courses. </p>",
+                },
+                (err) => {
+                    if (err)
+                        res.status(500).json({
+                            success: false,
+                            message: "Internal server Error",
+                        });
+                }
+            );
+
             return res.json({
                 Success: true,
                 email: req.body.email

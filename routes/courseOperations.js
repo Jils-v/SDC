@@ -89,18 +89,25 @@ router.post("/getAllCourses", async(req, res) => {
 router.post("/enroll", fetchuser, async(req, res) => {
     try {
         const usr = await User.findOne({ email: req.data.email });
-        usr.courses.push(req.body.id);
-        const updated = await User.findOneAndUpdate({ email: req.data.email }, { courses: usr.courses });
-
-        const course = await Course.findOne({ _id: req.body.id });
-        course.participates.push({ name: req.data.name, email: req.data.email, phone: req.data.phone });
-        const updated2 = await Course.findOneAndUpdate({ _id: req.body.id }, { participates: course.participates });
-
-        if (updated && updated2) {
-            return res.status(200).json({
-                success: true,
-                id: req.body.id
+        if (usr.courses.includes(req.body.id)) {
+            return res.status(500).json({
+                success: false,
+                message: "Already Enrolled",
             });
+        } else {
+            usr.courses.push(req.body.id);
+            const updated = await User.findOneAndUpdate({ email: req.data.email }, { courses: usr.courses });
+
+            const course = await Course.findOne({ _id: req.body.id });
+            course.participates.push({ name: req.data.name, email: req.data.email, phone: req.data.phone });
+            const updated2 = await Course.findOneAndUpdate({ _id: req.body.id }, { participates: course.participates });
+
+            if (updated && updated2) {
+                return res.status(200).json({
+                    success: true,
+                    id: req.body.id
+                });
+            }
         }
     } catch (err) {
         return res.status(500).send({
