@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/adminoperation", require("./routes/adminOperations"));
 app.use("/api/courseoperation", require("./routes/courseOperations"));
+app.use("/files", require("./routes/files"));
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

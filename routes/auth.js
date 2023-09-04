@@ -124,6 +124,7 @@ router.post("/signup", verifyer, async(req, res) => {
                 verified: false,
                 password: secPass,
                 courses: [],
+                ownedCourses: [],
             });
 
             try {
@@ -139,6 +140,7 @@ router.post("/signup", verifyer, async(req, res) => {
                             verified: tutor.verified,
                             type: "tutor",
                             courses: tutor.courses,
+                            ownedCourses: tutor.ownedCourses,
                         },
                     })
                 );
@@ -188,6 +190,13 @@ router.post("/login", verifyer, async(req, res) => {
         }
     }
 
+    if (usr == null) {
+        return res.status(400).json({
+            success: false,
+            message: "please try to login with correct credentials",
+        });
+    }
+
     const passowrdCompare = await bcrypt.compare(password, usr.password);
     if (!passowrdCompare) {
         return res.status(400).json({
@@ -208,6 +217,20 @@ router.post("/login", verifyer, async(req, res) => {
                         type: role,
                         verified: usr.verified,
                         courses: usr.courses,
+                        ownedCourses: usr.ownedCourses,
+                    },
+                });
+            } else if (role == "admin") {
+                return res.status(200).json({
+                    success: true,
+                    token,
+                    user: {
+                        name: usr.name,
+                        email: usr.email,
+                        phone: usr.phone,
+                        type: role,
+                        courses: usr.courses,
+                        ownedCourses: usr.ownedCourses,
                     },
                 });
             } else {

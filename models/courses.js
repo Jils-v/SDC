@@ -53,6 +53,12 @@ const courseSchema = new Schema({
             required: true,
         }
     }],
+    announcements: [
+        String,
+    ],
+    material: [
+        String,
+    ],
     date: {
         type: Date,
         default: Date.now,

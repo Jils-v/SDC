@@ -24,6 +24,9 @@ const tutorSchema = new Schema({
         required: true,
         select: false,
     },
+    ownedCourses: [
+        mongoose.Schema.Types.ObjectId,
+    ],
     courses: [
         mongoose.Schema.Types.ObjectId,
     ],
@@ -35,7 +38,7 @@ const tutorSchema = new Schema({
 
 tutorSchema.pre("save",
     tutorSchema.methods.getJWTToken = function() {
-        return jwt.sign({ id: this._id.toString(), type: "tutor", email: this.email, name: this.name }, "n2i4i5n32udnwi0f02wjdnakdf", { expiresIn: '7d' })
+        return jwt.sign({ id: this._id.toString(), type: "tutor", email: this.email, name: this.name, phone: this.phone }, "n2i4i5n32udnwi0f02wjdnakdf", { expiresIn: '7d' })
     }
 )
 
